@@ -1,21 +1,21 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.endpoints import vanishing_point
+from app.api.endpoints import manual_vanishing_point
 from app.core import logging_config  
 
 app = FastAPI()
 
-# Add CORS middleware
+# Add CORS middleware with production domains
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # List of allowed origins (frontend URLs)
+    allow_origins=["http://localhost:3000", "https://reftech.app", "https://www.reftech.app"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
 )
 
-app.include_router(vanishing_point.router)
+app.include_router(manual_vanishing_point.router)
 
 @app.get("/")
 def root():
-    return {"message": "wtf are you doing here?"} 
+    return {"message": "Welcome to the Vanishing Point API"} 
