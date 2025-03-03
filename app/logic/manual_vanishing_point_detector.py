@@ -5,7 +5,7 @@ from itertools import combinations
 import statistics
 
 
-def calculate_intersection(lines: List[Line]) -> Tuple[float, float]:
+def manual_vp(lines: List[Line]) -> Tuple[float, float]:
     if len(lines) < 2:
         raise ValueError("Need at least two lines to compute intersection!")
     
