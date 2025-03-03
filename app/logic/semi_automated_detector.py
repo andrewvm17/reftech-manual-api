@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 
 
-from field_extractor import extract_field_mask
+from app.logic.field_extractor import extract_field_mask
 from sklearn.cluster import DBSCAN
 
 def detector_v4(input_image):
