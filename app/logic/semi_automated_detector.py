@@ -146,6 +146,20 @@ def detector_v4(input_image):
             if abs(pt1_x - pt2_x)  and pt1_y == pt2_y:
                 print(f"Duplicate intersection point found: {pt1}")
             
+    if not intersection_points:
+        print("No valid intersections found. Returning None.")
+        return None
+
+    # If DBSCAN found no non-outlier cluster:
+    # e.g.:
+    if len(labels) == 0 or (max(labels) == -1):
+        print("No clusters found (all outliers). Returning None.")
+        return None
+
+    # if representation is None or invalid, also return None
+    if representation is None or any(np.isnan(representation)):
+        return None
+
     return representation
 
 def line_infinite_intersection(l1, l2):
@@ -169,11 +183,10 @@ def line_infinite_intersection(l1, l2):
 
     determinant = A1 * B2 - A2 * B1
 
-    # If determinant ~ 0, lines are parallel or coincident
-   
-    #print(abs(m1 - m2))
-    #print(abs(x1-x3))
-    # Compute intersection for infinite (unbounded) lines
+    # NEW: Return None if lines are parallel or nearly so
+    if abs(determinant) < 1e-9:
+        return None
+
     x_int = (B2 * C1 - B1 * C2) / determinant
     y_int = (A1 * C2 - A2 * C1) / determinant
     return (x_int, y_int)
